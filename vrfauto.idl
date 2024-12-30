@@ -1,0 +1,711 @@
+//=============================================================================
+//
+// @module      vrfapi.idl
+//
+// @created     15-December-2005
+//
+// @abstract    Microsoft Windows Core Operating System
+//
+// @copyright   Copyright (C) Microsoft Corporation. All rights reserved.
+//
+//=============================================================================
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+interface IAppVerifierManager;
+interface IAppVerifierImages;
+interface IAppVerifierImage;
+interface IAppVerifierImageLogs;
+interface IAppVerifierImageLog;
+interface IAppVerifierCheck;
+interface IAppVerifierChecks;
+interface IAppVerifierProperties;
+interface IAppVerifierProperty;
+interface IAppVerifierStops;
+interface IAppVerifierStop;
+interface IAppVerifierImageCheck;
+interface IAppVerifierImageChecks;
+interface IAppVerifierImageProperties;
+interface IAppVerifierImageProperty;
+interface IAppVerifierImageStops;
+interface IAppVerifierImageStop;
+
+#define DISPID_XOBJ_MIN                 0x00010000
+#define DISPID_XOBJ_MAX                 0x0001FFFF
+#define DISPID_XOBJ_BASE                DISPID_XOBJ_MIN
+
+#define DISPID_APPVERIFIERMANAGER       (DISPID_XOBJ_BASE               + 0x400)
+#define DISPID_APPVERIFIERIMAGES        (DISPID_APPVERIFIERMANAGER      + 0x200)
+#define DISPID_APPVERIFIERIMAGE         (DISPID_APPVERIFIERIMAGES       + 0x200)
+#define DISPID_APPVERIFIERIMAGELOGS     (DISPID_APPVERIFIERIMAGE        + 0x200)
+#define DISPID_APPVERIFIERIMAGELOG      (DISPID_APPVERIFIERIMAGELOGS    + 0x200)
+#define DISPID_APPVERIFIERCHECKS        (DISPID_APPVERIFIERIMAGELOG     + 0x200)
+#define DISPID_APPVERIFIERCHECK         (DISPID_APPVERIFIERCHECKS       + 0x200)
+#define DISPID_APPVERIFIERPROPERTIES    (DISPID_APPVERIFIERCHECK        + 0x200)
+#define DISPID_APPVERIFIERPROPERTY      (DISPID_APPVERIFIERPROPERTIES   + 0x200)
+#define DISPID_APPVERIFIERSTOPS         (DISPID_APPVERIFIERPROPERTY     + 0x200)
+#define DISPID_APPVERIFIERSTOP          (DISPID_APPVERIFIERSTOPS        + 0x200)
+#define DISPID_APPVERIFIERIMAGECHECKS   (DISPID_APPVERIFIERSTOP         + 0x200)
+#define DISPID_APPVERIFIERIMAGECHECK    (DISPID_APPVERIFIERIMAGECHECKS       + 0x200)
+#define DISPID_APPVERIFIERIMAGEPROPERTIES    (DISPID_APPVERIFIERIMAGECHECK        + 0x200)
+#define DISPID_APPVERIFIERIMAGEPROPERTY (DISPID_APPVERIFIERIMAGEPROPERTIES   + 0x200)
+#define DISPID_APPVERIFIERIMAGESTOPS    (DISPID_APPVERIFIERIMAGEPROPERTY     + 0x200)
+#define DISPID_APPVERIFIERIMAGESTOP     (DISPID_APPVERIFIERIMAGESTOPS   + 0x200)
+
+#define DISPID_APPVERIFIERMANAGER_MAJOR             DISPID_APPVERIFIERMANAGER + 1
+#define DISPID_APPVERIFIERMANAGER_MINOR             DISPID_APPVERIFIERMANAGER + 2
+#define DISPID_APPVERIFIERMANAGER_BUILD             DISPID_APPVERIFIERMANAGER + 3
+#define DISPID_APPVERIFIERMANAGER_PRIVATE           DISPID_APPVERIFIERMANAGER + 4
+#define DISPID_APPVERIFIERMANAGER_IMAGES            DISPID_APPVERIFIERMANAGER + 5
+#define DISPID_APPVERIFIERMANAGER_CHECKS            DISPID_APPVERIFIERMANAGER + 6
+#define DISPID_APPVERIFIERMANAGER_PROPERTIES        DISPID_APPVERIFIERMANAGER + 7
+#define DISPID_APPVERIFIERMANAGER_LOGS              DISPID_APPVERIFIERMANAGER + 8
+
+#define DISPID_APPVERIFIERIMAGES_COUNT              DISPID_APPVERIFIERIMAGES + 1
+#define DISPID_APPVERIFIERIMAGES_ADD                DISPID_APPVERIFIERIMAGES + 2
+#define DISPID_APPVERIFIERIMAGES_REMOVE             DISPID_APPVERIFIERIMAGES + 3
+
+#define DISPID_APPVERIFIERIMAGE_NAME                DISPID_APPVERIFIERIMAGE + 1
+#define DISPID_APPVERIFIERIMAGE_CHECKS              DISPID_APPVERIFIERIMAGE + 2
+
+#define DISPID_APPVERIFIERIMAGELOGS_COUNT           DISPID_APPVERIFIERIMAGELOGS + 1
+#define DISPID_APPVERIFIERIMAGELOGS_REMOVE          DISPID_APPVERIFIERIMAGELOGS + 2
+
+#define DISPID_APPVERIFIERIMAGELOG_NAME             DISPID_APPVERIFIERIMAGELOG + 1
+#define DISPID_APPVERIFIERIMAGELOG_SAVEXML          DISPID_APPVERIFIERIMAGELOG + 2
+
+#define DISPID_APPVERIFIERCHECKS_COUNT              DISPID_APPVERIFIERCHECKS + 1
+
+#define DISPID_APPVERIFIERCHECK_NAME                DISPID_APPVERIFIERCHECK + 1
+#define DISPID_APPVERIFIERCHECK_MAJORVERSION        DISPID_APPVERIFIERCHECK + 2
+#define DISPID_APPVERIFIERCHECK_MINORVERSION        DISPID_APPVERIFIERCHECK + 3
+#define DISPID_APPVERIFIERCHECK_GUIDSTRING          DISPID_APPVERIFIERCHECK + 4
+#define DISPID_APPVERIFIERCHECK_GROUPNAME           DISPID_APPVERIFIERCHECK + 5
+#define DISPID_APPVERIFIERCHECK_DESCRIPTION         DISPID_APPVERIFIERCHECK + 6
+#define DISPID_APPVERIFIERCHECK_LONGNAME            DISPID_APPVERIFIERCHECK + 7
+#define DISPID_APPVERIFIERCHECK_PROPERTIES          DISPID_APPVERIFIERCHECK + 8
+#define DISPID_APPVERIFIERCHECK_STOPS               DISPID_APPVERIFIERCHECK + 9
+#define DISPID_APPVERIFIERCHECK_PROPIGATE           DISPID_APPVERIFIERCHECK + 10
+
+#define DISPID_APPVERIFIERPROPERTIES_COUNT          DISPID_APPVERIFIERPROPERTIES + 1
+
+#define DISPID_APPVERIFIERPROPERTY_NAME             DISPID_APPVERIFIERPROPERTY + 1
+#define DISPID_APPVERIFIERPROPERTY_TYPE             DISPID_APPVERIFIERPROPERTY + 2
+#define DISPID_APPVERIFIERPROPERTY_VALUE            DISPID_APPVERIFIERPROPERTY + 3
+
+#define DISPID_APPVERIFIERSTOPS_COUNT               DISPID_APPVERIFIERSTOPS + 1
+
+#define DISPID_APPVERIFIERSTOP_STOPCODE             DISPID_APPVERIFIERSTOP + 1 
+#define DISPID_APPVERIFIERSTOP_ACTIVE               DISPID_APPVERIFIERSTOP + 2
+#define DISPID_APPVERIFIERSTOP_SEVERITY             DISPID_APPVERIFIERSTOP + 3
+#define DISPID_APPVERIFIERSTOP_ERRORREPORTING       DISPID_APPVERIFIERSTOP + 4
+#define DISPID_APPVERIFIERSTOP_ERRORFLAGS           DISPID_APPVERIFIERSTOP + 5
+#define DISPID_APPVERIFIERSTOP_STOPFLAGS            DISPID_APPVERIFIERSTOP + 6
+
+#define DISPID_APPVERIFIERIMAGECHECKS_COUNT         DISPID_APPVERIFIERIMAGECHECKS + 1
+
+#define DISPID_APPVERIFIERIMAGECHECK_NAME           DISPID_APPVERIFIERIMAGECHECK + 1
+#define DISPID_APPVERIFIERIMAGECHECK_MAJORVERSION   DISPID_APPVERIFIERIMAGECHECK + 2
+#define DISPID_APPVERIFIERIMAGECHECK_MINORVERSION   DISPID_APPVERIFIERIMAGECHECK + 3
+#define DISPID_APPVERIFIERIMAGECHECK_GUIDSTRING     DISPID_APPVERIFIERIMAGECHECK + 4
+#define DISPID_APPVERIFIERIMAGECHECK_GROUPNAME      DISPID_APPVERIFIERIMAGECHECK + 5
+#define DISPID_APPVERIFIERIMAGECHECK_DESCRIPTION    DISPID_APPVERIFIERIMAGECHECK + 6
+#define DISPID_APPVERIFIERIMAGECHECK_LONGNAME       DISPID_APPVERIFIERIMAGECHECK + 7
+#define DISPID_APPVERIFIERIMAGECHECK_PROPERTIES     DISPID_APPVERIFIERIMAGECHECK + 8
+#define DISPID_APPVERIFIERIMAGECHECK_STOPS          DISPID_APPVERIFIERIMAGECHECK + 9
+#define DISPID_APPVERIFIERIMAGECHECK_ENABLED        DISPID_APPVERIFIERIMAGECHECK + 10
+#define DISPID_APPVERIFIERIMAGECHECK_PROPIGATE      DISPID_APPVERIFIERIMAGECHECK + 11
+
+#define DISPID_APPVERIFIERIMAGEPROPERTIES_COUNT     DISPID_APPVERIFIERIMAGEPROPERTIES + 1
+
+#define DISPID_APPVERIFIERIMAGEPROPERTY_NAME        DISPID_APPVERIFIERIMAGEPROPERTY + 1
+#define DISPID_APPVERIFIERIMAGEPROPERTY_TYPE        DISPID_APPVERIFIERIMAGEPROPERTY + 2
+#define DISPID_APPVERIFIERIMAGEPROPERTY_VALUE       DISPID_APPVERIFIERIMAGEPROPERTY + 3
+
+#define DISPID_APPVERIFIERIMAGESTOPS_COUNT          DISPID_APPVERIFIERIMAGESTOPS + 1
+
+#define DISPID_APPVERIFIERIMAGESTOP_STOPCODE        DISPID_APPVERIFIERIMAGESTOP + 1 
+#define DISPID_APPVERIFIERIMAGESTOP_ACTIVE          DISPID_APPVERIFIERIMAGESTOP + 2
+#define DISPID_APPVERIFIERIMAGESTOP_SEVERITY        DISPID_APPVERIFIERIMAGESTOP + 3
+#define DISPID_APPVERIFIERIMAGESTOP_ERRORREPORTING  DISPID_APPVERIFIERIMAGESTOP + 4
+#define DISPID_APPVERIFIERIMAGESTOP_ERRORFLAGS      DISPID_APPVERIFIERIMAGESTOP + 5
+#define DISPID_APPVERIFIERIMAGESTOP_STOPFLAGS       DISPID_APPVERIFIERIMAGESTOP + 6
+
+
+
+[
+    uuid(dab52bcb-6990-464a-ac61-f60c8ef60e24),
+    version(1.0),
+    helpstring("Microsoft Application Verifier Automation API Library v1.0")
+]
+library APPVERIFIER
+{
+    importlib("stdole32.tlb");
+    importlib("stdole2.tlb");
+
+    ///////////////////////////////////////////////////////
+    // Enumerations
+
+    [
+        uuid(b17d1b51-f5b4-4a5b-aeb0-17e6b4b84f65), 
+        helpstring("The VerifierStopSeverity enumeration identifies the level of severity of a verifier stop.")
+    ]
+    typedef [public] enum VerifierStopSeverity {
+        [helpstring("Ignore")] 
+        VerifierStopSeverityIgnore = 0,
+        [helpstring("Information")] 
+        VerifierStopSeverityInformation = 1,
+        [helpstring("Warning")] 
+        VerifierStopSeverityWarning = 2,
+        [helpstring("Error")] 
+        VerifierStopSeverityError = 3,
+    }
+    VerifierStopSeverity;  
+
+    [
+        uuid(0a0fbc2f-8dee-4f8e-b3e1-6838989fb408), 
+        helpstring("The VerifierErrorReporting enumeration identifies the level of severity of a verifier stop.")
+    ]
+    typedef [public] enum VerifierErrorReporting {
+        [helpstring("No Break")] 
+        VerifierErrorReportingNoBreak = 0,
+        [helpstring("Exception")] 
+        VerifierErrorReportingException = 1,
+        [helpstring("Breakpoint")] 
+        VerifierErrorReportingBreakpoint = 2
+    }
+    VerifierErrorReporting;  
+
+    [
+        uuid(de9d346c-ce91-4695-84b8-66d4ef336258), 
+        helpstring("The error flags set logging behavior.")
+    ]
+    typedef [public] enum VerifierErrorFlag {
+        [helpstring("Log To File")] 
+        VerifierErrorFlagLogToFile = 0x1,
+        [helpstring("Log Stack Trace")] 
+        VerifierErrorFlagLogStackTrace = 0x2,
+    }
+    VerifierErrorFlag;  
+
+    [
+        uuid(0512b3f5-59f8-4d42-a997-93951b0b7e1f), 
+        helpstring("The stop flags set stop behaviors.")
+    ]
+    typedef [public] enum VerifierStopFlag {
+        [helpstring("Stop Once")] 
+        VerifierStopFlagStopOnce = 0x1,
+        [helpstring("Not Continuable")] 
+        VerifierStopFlagNotContinuable = 0x2,
+    }
+    VerifierStopFlag;  
+
+    [
+        uuid(fd5c2b74-01ef-4d17-a8a9-3d76d245a863), 
+        helpstring("The VerifierPropertyType enumeration identifies the datatype of a property.")
+    ]
+    typedef [public] enum VerifierPropertyType {
+        [helpstring("None")] 
+        VerifierPropertyTypeNone = 0,
+        [helpstring("DWORD")] 
+        VerifierPropertyTypeDWORD = 1,
+        [helpstring("QWORD")] 
+        VerifierPropertyTypeQWORD = 2,
+        [helpstring("String")] 
+        VerifierPropertyTypeString = 3,
+        [helpstring("String Array")] 
+        VerifierPropertyTypeStringArray = 4,
+        [helpstring("Byte Array")] 
+        VerifierPropertyTypeByteArray = 5,
+        [helpstring("Boolean")] 
+        VerifierPropertyTypeBoolean = 6
+    }
+    VerifierPropertyType;  
+
+
+    ///////////////////////////////////////////////////////
+    // AppVerifierManager
+
+    [
+        object, uuid(6b0532d9-ee3c-4865-8c1a-8e4e9fcaa7fc),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierManager : IDispatch
+    {
+        [propget, id(DISPID_APPVERIFIERMANAGER_MAJOR), helpstring("The major version is a 16 bit number that forms the first group of digits in "
+                                    "a version number in the form 0000.0000.0000.000")]
+        HRESULT MajorVersion([out, retval] LONG* plMajorVersion);
+
+        [propget, id(DISPID_APPVERIFIERMANAGER_MINOR), helpstring("The minor version is a 16 bit number that forms the second group of digits in "
+                                    "a version number in the form 0000.0000.0000.000")]
+        HRESULT MinorVersion([out, retval] LONG* plMinorVersion);
+        
+        [propget, id(DISPID_APPVERIFIERMANAGER_BUILD), helpstring("The build version is a 16 bit number that forms the third group of digits in "
+                                    "a version number in the form 0000.0000.0000.000")]
+        HRESULT BuildVersion([out, retval] LONG* plBuildVersion);
+
+        [propget, id(DISPID_APPVERIFIERMANAGER_PRIVATE), helpstring("The private version is a 16 bit number that forms the fourth group of digits in "
+                                    "a version number in the form 0000.0000.0000.000")]
+        HRESULT PrivateVersion([out, retval] LONG* plPrivateVersion);
+
+        [propget, id(DISPID_APPVERIFIERMANAGER_IMAGES), helpstring("returns a collection of the images under verification")]
+        HRESULT Images([out, retval] IAppVerifierImages ** ppImages);
+
+        [propget, id(DISPID_APPVERIFIERMANAGER_CHECKS), helpstring("returns a collection of the default checks")]
+        HRESULT Checks([out, retval] IAppVerifierChecks ** ppChecks);
+
+        [propget, id(DISPID_APPVERIFIERMANAGER_LOGS), helpstring("returns a collection of the logs for the image")]
+        HRESULT Logs([in] BSTR Image, [out, retval] IAppVerifierImageLogs ** ppLogs);
+    };
+
+
+    ///////////////////////////////////////////////////////
+    // AppVerifierImages
+
+    [
+        object, uuid(2c7b03cc-81d5-4ba3-b7aa-db662a49f61a),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierImages : IDispatch
+    {
+        [propget, id(DISPID_APPVERIFIERIMAGES_COUNT), helpstring("property Count")]
+        HRESULT Count([out, retval] long *plCount);
+
+        [propget, id(DISPID_NEWENUM), restricted, hidden, helpstring("property _NewEnum")]
+        HRESULT _NewEnum([out, retval] LPUNKNOWN *ppunk);
+
+        [propget, id(DISPID_VALUE), helpstring("property Item")]
+        HRESULT Item([in] BSTR bstrImageName,
+                     [out, retval] IAppVerifierImage ** ppImage);
+
+        [id(DISPID_APPVERIFIERIMAGES_ADD), helpstring("sets up verification for a new image")]
+        HRESULT Add([in] BSTR bstrImageName,
+                    [out, retval] IAppVerifierImage ** ppImage);
+
+        [id(DISPID_APPVERIFIERIMAGES_REMOVE), helpstring("Deletes the verification setings for an image")]
+        HRESULT Remove([in] BSTR bstrImageName);
+
+        
+    };
+
+    ///////////////////////////////////////////////////////
+    // AppVerifierImage
+
+    [
+        object, uuid(4718cb93-a4b3-4f0d-9b90-35e69e29968e),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierImage : IDispatch
+    {
+        [propget, id(DISPID_APPVERIFIERIMAGE_NAME), helpstring("returns the name of the image")]
+        HRESULT Name([out, retval] BSTR * pbstr);
+
+        [propget, id(DISPID_APPVERIFIERIMAGE_CHECKS), helpstring("returns a collection of the checks for the image")]
+        HRESULT Checks([out, retval] IAppVerifierImageChecks ** ppChecks);
+
+    };
+
+    ///////////////////////////////////////////////////////
+    // AppVerifierImageLog
+
+    [
+        object, uuid(653dbf1c-3ae1-46fa-a8c8-fab3b3b62699),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierImageLog : IDispatch
+    {
+        [propget, id(DISPID_APPVERIFIERIMAGELOG_NAME), helpstring("returns the name of the image")]
+        HRESULT Name([out, retval] BSTR * pbstr);
+
+        [id(DISPID_APPVERIFIERIMAGELOG_SAVEXML), helpstring("saves the log as an XML file to the given path")]
+        HRESULT SaveAsXML([in] BSTR bstrLogPath, [in] BSTR bstrSympath);
+    };
+    
+
+    ///////////////////////////////////////////////////////
+    // AppVerifierImageLogs
+
+    [
+        object, uuid(31861193-4a66-4d41-a796-05185b0207f4),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierImageLogs : IDispatch
+    {
+        [propget, id(DISPID_APPVERIFIERIMAGELOGS_COUNT), helpstring("property Count")]
+        HRESULT Count([out, retval] long *plCount);
+
+        [propget, id(DISPID_NEWENUM), restricted, hidden, helpstring("property _NewEnum")]
+        HRESULT _NewEnum([out, retval] LPUNKNOWN *ppunk);
+
+        [propget, id(DISPID_VALUE), helpstring("property Item")]
+        HRESULT Item([in] long lLogIndex,
+                     [out, retval] IAppVerifierImageLog ** ppLog);
+
+        [id(DISPID_APPVERIFIERIMAGELOGS_REMOVE), helpstring("remove log file")]
+        HRESULT Remove([in] long lLogIndex);
+    };
+
+    
+    ///////////////////////////////////////////////////////
+    // AppVerifierChecks
+
+    [
+        object, uuid(3163843f-4f41-4f5a-9d28-e332be3c31bc),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierChecks : IDispatch
+    {
+
+        [propget, id(DISPID_APPVERIFIERCHECKS_COUNT), helpstring("property Count")]
+        HRESULT Count([out, retval] long *plCount);
+
+        [propget, id(DISPID_NEWENUM), restricted, hidden, helpstring("property _NewEnum")]
+        HRESULT _NewEnum([out, retval] LPUNKNOWN *ppunk);
+
+        [propget, id(DISPID_VALUE), helpstring("property Item")]
+        HRESULT Item([in] BSTR bstrCheckId,
+                     [out, retval] IAppVerifierCheck ** ppCheck);
+    };
+
+
+    ///////////////////////////////////////////////////////
+    // AppVerifierCheck
+
+    [
+        object, uuid(b07f8bb4-7a0a-4de9-8421-5bf07f9c44c6),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierCheck : IDispatch
+    {
+
+        [propget, id(DISPID_APPVERIFIERCHECK_NAME), helpstring("returns the name of the image")]
+        HRESULT Name([out, retval] BSTR * pbstr);
+
+        [propget, id(DISPID_APPVERIFIERCHECK_MAJORVERSION), helpstring("The major version if the check")]
+        HRESULT MajorVersion([out, retval] LONG* plMajorVersion);
+
+        [propget, id(DISPID_APPVERIFIERCHECK_MINORVERSION), helpstring("The minor version of the check")]
+        HRESULT MinorVersion([out, retval] LONG* plMinorVersion);
+
+        [propget, id(DISPID_APPVERIFIERCHECK_GUIDSTRING), helpstring("returns the string GUID that uniquely identifes the check")]
+        HRESULT GuidString([out, retval] BSTR * pbstr);
+
+        [propget, id(DISPID_APPVERIFIERCHECK_GROUPNAME), helpstring("returns the name of the group that the check belongs to")]
+        HRESULT GroupName([out, retval] BSTR * pbstr);
+
+        [propget, id(DISPID_APPVERIFIERCHECK_DESCRIPTION), helpstring("returns the description of the check")]
+        HRESULT Description([out, retval] BSTR * pbstr);
+
+        [propget, id(DISPID_APPVERIFIERCHECK_LONGNAME), helpstring("returns the long name of the check")]
+        HRESULT LongName([out, retval] BSTR * pbstr);
+
+        [propget, id(DISPID_APPVERIFIERCHECK_PROPERTIES), helpstring("returns a collection of the properties for the check")]
+        HRESULT Properties([out, retval] IAppVerifierProperties ** ppProperties);
+
+        [propget, id(DISPID_APPVERIFIERCHECK_STOPS), helpstring("returns a collection of the stops for the check")]
+        HRESULT Stops([out, retval] IAppVerifierStops ** ppStops);
+
+        [propget, id(DISPID_APPVERIFIERCHECK_PROPIGATE), helpstring("Returns a flag that indicates if the stop settings are propigated to child processes")]
+        HRESULT Propigate([out, retval] VARIANT_BOOL* pbResult);
+    };
+
+    ///////////////////////////////////////////////////////
+    // AppVerifierProperties
+
+    [
+        object, uuid(3a4ee78b-0c75-45d0-9ebd-dcc50c6d2437),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierProperties : IDispatch
+    {
+        [propget, id(DISPID_APPVERIFIERCHECKS_COUNT), helpstring("property Count")]
+        HRESULT Count([out, retval] long *plCount);
+
+        [propget, id(DISPID_NEWENUM), restricted, hidden, helpstring("property _NewEnum")]
+        HRESULT _NewEnum([out, retval] LPUNKNOWN *ppunk);
+
+        [propget, id(DISPID_VALUE), helpstring("property Item")]
+        HRESULT Item([in] BSTR bstrProperty,
+                     [out, retval] IAppVerifierProperty ** ppProperty);        
+    };
+
+    ///////////////////////////////////////////////////////
+    // AppVerifierProperty
+
+    [
+        object, uuid(12dae0bd-d323-4639-9d54-0ee125be37e5),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierProperty : IDispatch
+    {
+
+        [propget, id(DISPID_APPVERIFIERPROPERTY_NAME), helpstring("returns the name of the property")]
+        HRESULT Name([out, retval] BSTR * pbstr);
+
+        [propget, id(DISPID_APPVERIFIERPROPERTY_TYPE), helpstring("returns the type of the property")]
+        HRESULT Type([out, retval] VerifierPropertyType * pVerifierPropertyType);
+
+        [propget, id(DISPID_APPVERIFIERPROPERTY_VALUE), helpstring("returns the value of the property")]
+        HRESULT Value([out, retval] VARIANT * pvValue);
+    
+    };
+
+    ///////////////////////////////////////////////////////
+    // AppVerifierStops
+
+    [
+        object, uuid(41f670dd-83ed-46ff-bbc0-3d8f973e57dd),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierStops : IDispatch
+    {
+        [propget, id(DISPID_APPVERIFIERSTOPS_COUNT), helpstring("stop Count")]
+        HRESULT Count([out, retval] long *plCount);
+
+        [propget, id(DISPID_NEWENUM), restricted, hidden, helpstring("stop _NewEnum")]
+        HRESULT _NewEnum([out, retval] LPUNKNOWN *ppunk);
+
+        [propget, id(DISPID_VALUE), helpstring("stop Item")]
+        HRESULT Item([in] LONG lStopCode,
+                     [out, retval] IAppVerifierStop ** ppStop);    
+        
+    };
+
+    ///////////////////////////////////////////////////////
+    // AppVerifierStop
+
+    [
+        object, uuid(340c8535-ed7e-4bec-b67a-d300dcba13dc),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierStop : IDispatch
+    {
+    
+        [propget, id(DISPID_APPVERIFIERSTOP_STOPCODE), helpstring("returns the stop code of the verifier stop")]
+        HRESULT StopCode([out, retval] LONG * plStopCode);
+
+        [propget, id(DISPID_APPVERIFIERSTOP_ACTIVE), helpstring("returns a flag that indicates if the stop is active")]
+        HRESULT Active([out, retval] VARIANT_BOOL* pbResult);
+
+        [propget, id(DISPID_APPVERIFIERSTOP_SEVERITY), helpstring("returns stop severity")]
+        HRESULT Severity([out, retval] VerifierStopSeverity * pVerifierStopSeverity);
+
+        [propget, id(DISPID_APPVERIFIERSTOP_ERRORREPORTING), helpstring("returns error reporting settings")]
+        HRESULT ErrorReporting([out, retval] VerifierErrorReporting * pVerifierErrorReporting);
+
+        [propget, id(DISPID_APPVERIFIERSTOP_ERRORFLAGS), helpstring("returns the error flags")]
+        HRESULT ErrorFlags([out, retval] LONG * plFlags);
+
+        [propget, id(DISPID_APPVERIFIERSTOP_STOPFLAGS), helpstring("returns the stop flags")]
+        HRESULT StopFlags([out, retval] LONG * plFlags);
+        
+    };
+
+    ///////////////////////////////////////////////////////
+    // AppVerifierImageChecks
+
+    [
+        object, uuid(72483051-75af-4c10-8ff7-de021785d817),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierImageChecks : IDispatch
+    {
+
+        [propget, id(DISPID_APPVERIFIERIMAGECHECKS_COUNT), helpstring("property Count")]
+        HRESULT Count([out, retval] long *plCount);
+
+        [propget, id(DISPID_NEWENUM), restricted, hidden, helpstring("property _NewEnum")]
+        HRESULT _NewEnum([out, retval] LPUNKNOWN *ppunk);
+
+        [propget, id(DISPID_VALUE), helpstring("property Item")]
+        HRESULT Item([in] BSTR bstrCheckId,
+                     [out, retval] IAppVerifierImageCheck ** ppCheck);
+    };
+
+
+    ///////////////////////////////////////////////////////
+    // AppVerifierImageCheck
+
+    [
+        object, uuid(f3930a1c-3bf9-45e6-8345-735da6761c17),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierImageCheck : IDispatch
+    {
+        [propget, id(DISPID_APPVERIFIERIMAGECHECK_NAME), helpstring("returns the name of the image")]
+        HRESULT Name([out, retval] BSTR * pbstr);
+
+        [propget, id(DISPID_APPVERIFIERIMAGECHECK_MAJORVERSION), helpstring("The major version if the check")]
+        HRESULT MajorVersion([out, retval] LONG* plMajorVersion);
+
+        [propget, id(DISPID_APPVERIFIERIMAGECHECK_MINORVERSION), helpstring("The minor version of the check")]
+        HRESULT MinorVersion([out, retval] LONG* plMinorVersion);
+
+        [propget, id(DISPID_APPVERIFIERIMAGECHECK_GUIDSTRING), helpstring("returns the string GUID that uniquely identifes the check")]
+        HRESULT GuidString([out, retval] BSTR * pbstr);
+
+        [propget, id(DISPID_APPVERIFIERIMAGECHECK_GROUPNAME), helpstring("returns the name of the group that the check belongs to")]
+        HRESULT GroupName([out, retval] BSTR * pbstr);
+
+        [propget, id(DISPID_APPVERIFIERIMAGECHECK_DESCRIPTION), helpstring("returns the description of the check")]
+        HRESULT Description([out, retval] BSTR * pbstr);
+
+        [propget, id(DISPID_APPVERIFIERIMAGECHECK_LONGNAME), helpstring("returns the long name of the check")]
+        HRESULT LongName([out, retval] BSTR * pbstr);
+
+        [propget, id(DISPID_APPVERIFIERIMAGECHECK_PROPERTIES), helpstring("returns a collection of the properties for the check")]
+        HRESULT Properties([out, retval] IAppVerifierImageProperties ** ppProperties);
+
+        [propget, id(DISPID_APPVERIFIERIMAGECHECK_STOPS), helpstring("returns a collection of the stops for the check")]
+        HRESULT Stops([out, retval] IAppVerifierImageStops ** ppStops);
+
+        [propget, id(DISPID_APPVERIFIERIMAGECHECK_ENABLED), helpstring("returns a flag that indicates if the check is enabled")]
+        HRESULT Enabled([out, retval] VARIANT_BOOL* pbResult);
+
+        [propput, id(DISPID_APPVERIFIERIMAGECHECK_ENABLED), helpstring("Sets a flag that indicates if the check is enabled")]
+        HRESULT Enabled([in] VARIANT_BOOL Value);
+
+        [propget, id(DISPID_APPVERIFIERIMAGECHECK_PROPIGATE), helpstring("Returns a flag that indicates if the stop settings are propigated to child processes")]
+        HRESULT Propigate([out, retval] VARIANT_BOOL* pbResult);
+    };
+
+    ///////////////////////////////////////////////////////
+    // AppVerifierImageProperties
+
+    [
+        object, uuid(f7b0dfda-d81b-4641-bc59-06153429f289),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierImageProperties : IDispatch
+    {
+        [propget, id(DISPID_APPVERIFIERIMAGECHECKS_COUNT), helpstring("property Count")]
+        HRESULT Count([out, retval] long *plCount);
+
+        [propget, id(DISPID_NEWENUM), restricted, hidden, helpstring("property _NewEnum")]
+        HRESULT _NewEnum([out, retval] LPUNKNOWN *ppunk);
+
+        [propget, id(DISPID_VALUE), helpstring("property Item")]
+        HRESULT Item([in] BSTR bstrPropertyId,
+                     [out, retval] IAppVerifierImageProperty ** ppProperty);        
+    };
+
+    ///////////////////////////////////////////////////////
+    // AppVerifierImageProperty
+
+    [
+        object, uuid(af7736d3-7e84-4916-a114-1bbaad0dfd7e),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierImageProperty : IDispatch
+    {
+
+        [propget, id(DISPID_APPVERIFIERIMAGEPROPERTY_NAME), helpstring("returns the name of the property")]
+        HRESULT Name([out, retval] BSTR * pbstr);
+
+        [propget, id(DISPID_APPVERIFIERIMAGEPROPERTY_TYPE), helpstring("returns the type of the property")]
+        HRESULT Type([out, retval] VerifierPropertyType * pVerifierPropertyType);
+
+        [propget, id(DISPID_APPVERIFIERIMAGEPROPERTY_VALUE), helpstring("returns the value of the property")]
+        HRESULT Value([out, retval] VARIANT * pvValue);
+
+        [propput, id(DISPID_APPVERIFIERIMAGEPROPERTY_VALUE), helpstring("sets the value of the property")]
+        HRESULT Value([in] VARIANT vValue);
+    
+    };
+
+    ///////////////////////////////////////////////////////
+    // AppVerifierImageStops
+
+    [            
+        object, uuid(6e6c6018-2831-4d57-bdfb-876078e820be),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierImageStops : IDispatch
+    {
+        [propget, id(DISPID_APPVERIFIERIMAGESTOPS_COUNT), helpstring("property Count")]
+        HRESULT Count([out, retval] long *plCount);
+
+        [propget, id(DISPID_NEWENUM), restricted, hidden, helpstring("property _NewEnum")]
+        HRESULT _NewEnum([out, retval] LPUNKNOWN *ppunk);
+
+        [propget, id(DISPID_VALUE), helpstring("property Item")]
+        HRESULT Item([in] LONG lStopCode,
+                     [out, retval] IAppVerifierImageStop ** ppStop);    
+        
+    };
+
+    ///////////////////////////////////////////////////////
+    // AppVerifierImageStop
+
+    [
+        object, uuid(d981decb-1e4b-4cdb-9e15-58876f15abf2),
+        dual, pointer_default(unique),
+        local
+    ]
+    interface IAppVerifierImageStop : IDispatch
+    {
+    
+        [propget, id(DISPID_APPVERIFIERIMAGESTOP_STOPCODE), helpstring("returns the stop code of the verifier stop")]
+        HRESULT StopCode([out, retval] LONG * plStopCode);
+
+        [propget, id(DISPID_APPVERIFIERIMAGESTOP_ACTIVE), helpstring("returns a flag that indicates if the stop is active")]
+        HRESULT Active([out, retval] VARIANT_BOOL* pbResult);
+
+        [propput, id(DISPID_APPVERIFIERIMAGESTOP_ACTIVE), helpstring("returns a flag that indicates if the stop is active")]
+        HRESULT Active([in] VARIANT_BOOL vValue);
+
+        [propget, id(DISPID_APPVERIFIERIMAGESTOP_SEVERITY), helpstring("returns stop severity")]
+        HRESULT Severity([out, retval] VerifierStopSeverity * pVerifierStopSeverity);
+
+        [propput, id(DISPID_APPVERIFIERIMAGESTOP_SEVERITY), helpstring("sets the stop severity")]
+        HRESULT Severity([in] VerifierStopSeverity VerifierStopSeverity);
+
+        [propget, id(DISPID_APPVERIFIERIMAGESTOP_ERRORREPORTING), helpstring("returns error reporting settings")]
+        HRESULT ErrorReporting([out, retval] VerifierErrorReporting * pVerifierErrorReporting);
+
+        [propput, id(DISPID_APPVERIFIERIMAGESTOP_ERRORREPORTING), helpstring("sets the error reporing settings")]
+        HRESULT ErrorReporting([in] VerifierErrorReporting errorReporting);
+
+        [propget, id(DISPID_APPVERIFIERIMAGESTOP_ERRORFLAGS), helpstring("returns the error flags")]
+        HRESULT ErrorFlags([out, retval] LONG * plFlags);
+
+        [propput, id(DISPID_APPVERIFIERIMAGESTOP_ERRORFLAGS), helpstring("sets the error flags")]
+        HRESULT ErrorFlags([in] LONG lFlags);
+
+        [propget, id(DISPID_APPVERIFIERIMAGESTOP_STOPFLAGS), helpstring("returns the stop flags")]
+        HRESULT StopFlags([out, retval] LONG * plFlags);
+
+        [propput, id(DISPID_APPVERIFIERIMAGESTOP_STOPFLAGS), helpstring("sets the stop flags")]
+        HRESULT StopFlags([in] LONG lFlags);
+        
+    };
+
+    [
+        uuid(597c1ef7-fc28-451e-8273-417c6c9244ed),
+        helpstring("The AppVerifierManager is an invisible-at-runtime control that manages "
+                   "Application Verifier settings. An AppVerifierManager control can be "
+                   "created using \"APPVERIVIER.AppVerifierManager\" in a call to CreateObject.")
+    ]
+    coclass AppVerifierManager
+    {
+        [default] interface IAppVerifierManager;
+    };
+}
+
